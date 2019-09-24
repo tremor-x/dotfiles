@@ -49,6 +49,7 @@ beautiful.init("~/.config/awesome/themes/xresources/theme.lua")
 -- {{{
 -- Load widgets
 local arclock   = require("plugins/arclock")
+local music   = require("plugins/cmus")
 local separator = wibox.widget {
     widget = wibox.widget.separator,
     color = beautiful.fg_minimize,
@@ -253,6 +254,8 @@ awful.screen.connect_for_each_screen(function(s)
             separator,
             batwidget,
             separator,
+            music.widget,
+            separator,
             arclock,
             mytextclock,
             separator,
@@ -414,6 +417,17 @@ clientkeys = gears.table.join(
               {description = "move to screen", group = "client"}),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
+
+    -- Music
+    awful.key({ }, "XF86AudioStop", function () music.toggle()  end,
+              { description = "toggle music player", group = "media" }),
+    awful.key({ }, "XF86AudioNext", function () music.next()    end,
+              { description = "next song", group = "media" }),
+    awful.key({ }, "XF86AudioPlay", function () music.stop()    end,
+              { description = "stop music player", group = "media" }),
+    awful.key({ }, "XF86AudioPrev", function () music.prev()    end,
+              { description = "prev song", group = "media" }),
+
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
